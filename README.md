@@ -143,19 +143,19 @@ FPS:    60
 ```
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  PONTOS: 001240   VIDAS: ♦ ♦ ♦   NÍVEL: 2   TEMPO: 033s    │
-├──────────────────────────────────────────────┬──────────────┤
-│                                              │─TRANSFORMAÇÕES│
-│        *    .        *        .      *       │Translação X: │
-│                  ☄️        ☄️               │Translação Y: │
-│     .       ✦                    .          │Rotação:      │
-│                    🚀                        │Escala:       │
-│          ☄️              ☄️                 │Flip H:       │
-│    *           .       .        *    .      │Flip V:       │
-│                                              ├──────────────┤
-│                  ☄️        .                │  controles   │
-└──────────────────────────────────────────────┴──────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│  PONTOS: 001240   VIDAS: ♦ ♦ ♦   NÍVEL: 2   TEMPO: 033s      │
+├──────────────────────────────────────────────┬───────────────┤
+│                                              │TRANSFORMAÇÕES:│
+│        *    .        *        .      *       │Translação X:  │
+│                  ☄️        ☄️               │Translação Y:  │
+│     .       ✦                       ☄️      │Rotação:       │
+│                    🚀      ☄️               │Escala:        │
+│          ☄️              ☄️                 │Flip H:        │
+│    *           .       .        *    .       │Flip V:        │
+│                                              ├───────────────┤
+│                  ☄️        .   ☄️           │  controles    │
+└──────────────────────────────────────────────┴───────────────┘
 ```
 
 ---
@@ -178,7 +178,7 @@ python3 --version
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/missao-cosmica.git
+git clone https://github.com/JoaoDario632/Trabalho-Computacao-Grafica
 cd missao-cosmica
 ```
 
@@ -227,8 +227,8 @@ python jogo_transformacoes.py
 missao-cosmica/
 │
 ├── jogo_transformacoes.py   # Arquivo principal — jogo completo
-├── README.md
-└── LICENSE
+README.md
+LICENSE
 ```
 
 ### Classes principais
