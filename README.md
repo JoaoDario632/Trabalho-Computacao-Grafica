@@ -151,7 +151,7 @@ FPS:    60
 │                  ☄️        ☄️               │Translação Y:  │
 │     .       ✦                       ☄️      │Rotação:       │
 │                    🚀      ☄️               │Escala:        │
-│          ☄️              ☄️                 │Flip H:        │
+│          ☄️                          ☄️     │Flip H:        │
 │    *           .       .        *    .       │Flip V:        │
 │                                              ├───────────────┤
 │                  ☄️        .   ☄️           │  controles    │
