@@ -43,11 +43,16 @@ from interface import (
 )
 
 pygame.init()
+pygame.mixer.init()
 
 tela = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("Missão Cósmica — Transformações Geométricas")
 relogio = pygame.time.Clock()
 configurar_fontes()
+
+pygame.mixer.music.load("missao-cosmica/Forget Me Not - Patrick Patrikios.mp3")
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1)
 
 
 def criar_explosao(x, y, particulas, n=25, cor_base=LARANJA):
