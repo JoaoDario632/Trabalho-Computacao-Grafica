@@ -75,10 +75,14 @@ def criar_asteroide_surface(raio, cor_base):
     return surf
 
 
-def criar_projetil_surface():
-    surf = pygame.Surface((8, 20), pygame.SRCALPHA)
-    pygame.draw.ellipse(surf, AMARELO, (0, 0, 8, 20))
-    pygame.draw.ellipse(surf, BRANCO, (2, 2, 4, 16))
+def criar_projetil_surface(poder, ang):
+    l = 4 * 2 ** poder
+    h = 10 * 2 ** poder
+
+    surf = pygame.Surface((l, h), pygame.SRCALPHA)
+    pygame.draw.ellipse(surf, AMARELO, (0, 0, l, h))
+    pygame.draw.ellipse(surf, BRANCO, (l//4, h//10, l//2, h//1.25))
+    surf = pygame.transform.rotate(surf, ang)
     return surf
 
 
@@ -211,7 +215,7 @@ class Nave:
         ang = self.angulo_visual
         vx = -math.sin(math.radians(ang)) * 12
         vy = -math.cos(math.radians(ang)) * 12
-        return Projetil(self.x, self.y, vx, vy)
+        return Projetil(self.x, self.y, vx, vy, self.escala_key, ang)
 
     def receber_dano(self):
         if self.invencivel == 0:
@@ -266,6 +270,13 @@ class Asteroide:
         self.vel_rotacao = random.uniform(-2, 2)
         self.pontos_valor = max(10, 60 - self.raio)
 
+        if self.raio < 37:
+            self.vida = 4
+        elif self.raio < 54:
+            self.vida = 6
+        else:
+            self.vida = 8
+
         self.bonus_tiro = random.random() < 0.2
         self.bonus_vida = random.random() < 0.15
 
@@ -310,10 +321,11 @@ class Asteroide:
 
 
 class Projetil:
-    def __init__(self, x, y, vx, vy):
+    def __init__(self, x, y, vx, vy, poder, ang):
         self.x, self.y = x, y
         self.vx, self.vy = vx, vy
-        self.surf = criar_projetil_surface()
+        self.poder = 2 ** poder
+        self.surf = criar_projetil_surface(poder, ang)
         self.vida = 80
 
     def update(self):

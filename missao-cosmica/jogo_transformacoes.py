@@ -196,17 +196,21 @@ def run():
         for p in projeteis[:]:
             for a in asteroides[:]:
                 if p.rect.colliderect(a.rect):
-                    criar_explosao(a.x, a.y, particulas, n=20)
-                    nave.pontos += a.pontos_valor
+                    a.vida -= p.poder
+                    if a.vida <= 0:
+                        criar_explosao(a.x, a.y, particulas, n=20)
+                        nave.pontos += a.pontos_valor
 
-                    if a.bonus_tiro:
-                        nave.ativar_bonus_tiro()
+                        if a.bonus_tiro:
+                            nave.ativar_bonus_tiro()
 
+                        if p in projeteis:
+                            projeteis.remove(p)
+                        if a in asteroides:
+                            asteroides.remove(a)
+                        break
                     if p in projeteis:
                         projeteis.remove(p)
-                    if a in asteroides:
-                        asteroides.remove(a)
-                    break
 
         nave_mask = nave.get_mask()
         for a in asteroides[:]:
