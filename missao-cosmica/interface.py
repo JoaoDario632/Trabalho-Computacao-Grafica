@@ -49,7 +49,7 @@ def desenhar_hud(surface, nave, nivel, tempo_restante):
 
 
 def desenhar_painel_transformacoes(surface, nave):
-    pw, ph = 198, 220
+    pw, ph = 198, 260  # Aumentado para caber nova linha do Boost Vida
     px, py = LARGURA - pw - 4, 56
     painel = pygame.Surface((pw, ph), pygame.SRCALPHA)
     painel.fill((0, 10, 30, 200))
@@ -71,8 +71,11 @@ def desenhar_painel_transformacoes(surface, nave):
     linha("Flip H:", "SIM" if nave.flip_h else "NÃO", ROXO, 5)
     linha("Flip V:", "SIM" if nave.flip_v else "NÃO", ROXO, 6)
 
-    tempo_bonus = nave.bonus_tiro_timer // 60
-    linha("Boost Tiro:", f"{tempo_bonus:02d}s", AMARELO, 7)
+    tempo_bonus_tiro = nave.bonus_tiro_timer // 60
+    linha("Boost Tiro:", f"{tempo_bonus_tiro:02d}s", AMARELO, 7)
+    
+    tempo_bonus_vida = nave.bonus_vida_timer // 60
+    linha("Boost Vida:", f"{tempo_bonus_vida:02d}s", VERDE, 8)
 
     hints = [
         "Setas/WASD → mover",
