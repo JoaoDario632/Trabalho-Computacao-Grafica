@@ -99,6 +99,7 @@ class Nave:
     ESCALA_MAX = 2.0
     VEL_BASE = 5
     DURACAO_BONUS_TIRO = 60 * 60  # 1 minuto a 60 FPS
+    DURACAO_BONUS_VIDA = 60 * 60  # 1 minuto a 60 FPS
 
     def __init__(self):
         self.x = LARGURA // 2
@@ -117,6 +118,7 @@ class Nave:
         self.invencivel = 0
         self.efeito_motor = 0
         self.bonus_tiro_timer = 0
+        self.bonus_vida_timer = 0
 
     @property
     def tamanho_atual(self):
@@ -167,6 +169,9 @@ class Nave:
 
         if self.bonus_tiro_timer > 0:
             self.bonus_tiro_timer -= 1
+            
+        if self.bonus_vida_timer > 0:
+            self.bonus_vida_timer -= 1
 
         self.efeito_motor = (self.efeito_motor + 1) % 10
         self._recalcular_surface()
@@ -185,6 +190,12 @@ class Nave:
 
     def ativar_bonus_tiro(self):
         self.bonus_tiro_timer = self.DURACAO_BONUS_TIRO
+
+    def ativar_bonus_vida(self):
+        """Adiciona +1 vida só se tiver menos de 3 vidas"""
+        if self.vidas < 3:
+            self.vidas = min(5, self.vidas + 1)  # Máximo 5 vidas
+        self.bonus_vida_timer = self.DURACAO_BONUS_VIDA  # Sempre ativa timer visual
 
     def atirar(self):
         ang = self.angulo_visual
@@ -246,6 +257,7 @@ class Asteroide:
         self.pontos_valor = max(10, 60 - self.raio)
 
         self.bonus_tiro = random.random() < 0.2
+        self.bonus_vida = random.random() < 0.15
 
         ang = math.atan2(ALTURA // 2 - self.y, LARGURA // 2 - self.x)
         vel = random.uniform(1.5, 2.5 + nivel * 0.3)
@@ -282,6 +294,9 @@ class Asteroide:
 
         if self.bonus_tiro:
             pygame.draw.circle(surface, AMARELO, self.rect.center, max(8, self.raio // 2), 2)
+        
+        if self.bonus_vida:
+            pygame.draw.circle(surface, VERDE, self.rect.center, max(10, self.raio // 2 + 4), 3)
 
 
 class Projetil:
