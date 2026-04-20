@@ -98,6 +98,7 @@ class Nave:
     ESCALA_MIN = 0.5
     ESCALA_MAX = 2.2
     VEL_BASE = 5
+    DURACAO_BONUS_TIRO = 60 * 60  # 1 minuto a 60 FPS
 
     def __init__(self):
         self.x = LARGURA // 2
@@ -114,6 +115,7 @@ class Nave:
         self.pontos = 0
         self.invencivel = 0
         self.efeito_motor = 0
+        self.bonus_tiro_timer = 0
 
     @property
     def tamanho_atual(self):
@@ -150,8 +152,11 @@ class Nave:
 
         if self.invencivel > 0:
             self.invencivel -= 1
-        self.efeito_motor = (self.efeito_motor + 1) % 10
 
+        if self.bonus_tiro_timer > 0:
+            self.bonus_tiro_timer -= 1
+
+        self.efeito_motor = (self.efeito_motor + 1) % 10
         self._recalcular_surface()
 
     def rotacionar(self, delta):
@@ -165,6 +170,9 @@ class Nave:
 
     def alternar_flip_v(self):
         self.flip_v = not self.flip_v
+
+    def ativar_bonus_tiro(self):
+        self.bonus_tiro_timer = self.DURACAO_BONUS_TIRO
 
     def atirar(self):
         vx = -math.sin(math.radians(self.angulo)) * 12
@@ -224,6 +232,8 @@ class Asteroide:
         self.vel_rotacao = random.uniform(-2, 2)
         self.pontos_valor = max(10, 60 - self.raio)
 
+        self.bonus_tiro = random.random() < 0.2
+
         ang = math.atan2(ALTURA // 2 - self.y, LARGURA // 2 - self.x)
         vel = random.uniform(1.5, 2.5 + nivel * 0.3)
         self.vx = math.cos(ang) * vel + random.uniform(-0.5, 0.5)
@@ -256,6 +266,9 @@ class Asteroide:
 
     def draw(self, surface):
         surface.blit(self.surf_atual, self.rect.topleft)
+
+        if self.bonus_tiro:
+            pygame.draw.circle(surface, AMARELO, self.rect.center, max(8, self.raio // 2), 2)
 
 
 class Projetil:

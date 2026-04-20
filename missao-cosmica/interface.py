@@ -4,7 +4,6 @@ import random
 from entidades import (
     LARGURA,
     ALTURA,
-    BRANCO,
     AZUL_ESC,
     AMARELO,
     CIANO,
@@ -50,7 +49,7 @@ def desenhar_hud(surface, nave, nivel, tempo_restante):
 
 
 def desenhar_painel_transformacoes(surface, nave):
-    pw, ph = 198, 200
+    pw, ph = 198, 220
     px, py = LARGURA - pw - 4, 56
     painel = pygame.Surface((pw, ph), pygame.SRCALPHA)
     painel.fill((0, 10, 30, 200))
@@ -71,6 +70,9 @@ def desenhar_painel_transformacoes(surface, nave):
     linha("Escala:", f"{nave.escala:.2f}x", LARANJA, 4)
     linha("Flip H:", "SIM" if nave.flip_h else "NÃO", ROXO, 5)
     linha("Flip V:", "SIM" if nave.flip_v else "NÃO", ROXO, 6)
+
+    tempo_bonus = nave.bonus_tiro_timer // 60
+    linha("Boost Tiro:", f"{tempo_bonus:02d}s", AMARELO, 7)
 
     hints = [
         "Setas/WASD → mover",

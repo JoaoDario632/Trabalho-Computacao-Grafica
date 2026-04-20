@@ -16,6 +16,7 @@ CONTROLES:
   ESC           → Sair
 """
 
+import os
 import pygame
 import random
 import sys
@@ -50,7 +51,8 @@ pygame.display.set_caption("Missão Cósmica — Transformações Geométricas")
 relogio = pygame.time.Clock()
 configurar_fontes()
 
-pygame.mixer.music.load("missao-cosmica/Forget Me Not - Patrick Patrikios.mp3")
+caminho_musica = os.path.join(os.path.dirname(__file__), "Forget Me Not - Patrick Patrikios.mp3")
+pygame.mixer.music.load(caminho_musica)
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1)
 
@@ -155,7 +157,11 @@ def run():
         teclas = pygame.key.get_pressed()
         if teclas[pygame.K_SPACE] and estado["cooldown_tiro"] <= 0:
             projeteis.append(nave.atirar())
-            estado["cooldown_tiro"] = 14
+
+            if nave.bonus_tiro_timer > 0:
+                estado["cooldown_tiro"] = 8
+            else:
+                estado["cooldown_tiro"] = 14
 
         if estado["cooldown_tiro"] > 0:
             estado["cooldown_tiro"] -= 1
@@ -190,6 +196,10 @@ def run():
                 if p.rect.colliderect(a.rect):
                     criar_explosao(a.x, a.y, particulas, n=20)
                     nave.pontos += a.pontos_valor
+
+                    if a.bonus_tiro:
+                        nave.ativar_bonus_tiro()
+
                     if p in projeteis:
                         projeteis.remove(p)
                     if a in asteroides:
