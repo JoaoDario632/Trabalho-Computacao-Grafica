@@ -122,11 +122,22 @@ class Nave:
     def tamanho_atual(self):
         return int(self.tamanho_base * self.escala)
 
+    @property
+    def angulo_visual(self):
+        ang = self.angulo
+
+        if self.flip_h:
+            ang = -ang
+
+        if self.flip_v:
+            ang = 180 - ang
+
+        return ang % 360
+
     def _recalcular_surface(self):
         s = max(10, self.tamanho_atual)
         surf = pygame.transform.scale(self.surf_original, (s * 2, s * 2))
-        surf = pygame.transform.rotate(surf, self.angulo)
-        surf = pygame.transform.flip(surf, self.flip_h, self.flip_v)
+        surf = pygame.transform.rotate(surf, self.angulo_visual)
 
         self.surf_atual = surf
         self.rect = surf.get_rect(center=(self.x, self.y))
@@ -176,8 +187,9 @@ class Nave:
         self.bonus_tiro_timer = self.DURACAO_BONUS_TIRO
 
     def atirar(self):
-        vx = -math.sin(math.radians(self.angulo)) * 12
-        vy = -math.cos(math.radians(self.angulo)) * 12
+        ang = self.angulo_visual
+        vx = -math.sin(math.radians(ang)) * 12
+        vy = -math.cos(math.radians(ang)) * 12
         return Projetil(self.x, self.y, vx, vy)
 
     def receber_dano(self):

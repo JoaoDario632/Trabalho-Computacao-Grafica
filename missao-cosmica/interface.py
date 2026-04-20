@@ -66,7 +66,7 @@ def desenhar_painel_transformacoes(surface, nave):
 
     linha("Translação X:", f"{int(nave.x):4d}px", VERDE, 1)
     linha("Translação Y:", f"{int(nave.y):4d}px", VERDE, 2)
-    linha("Rotação:", f"{int(nave.angulo):3d}°", AMARELO, 3)
+    linha("Rotação:", f"{int(nave.angulo_visual):3d}°", AMARELO, 3)
     linha("Escala:", f"{nave.escala:.2f}x", LARANJA, 4)
     linha("Flip H:", "SIM" if nave.flip_h else "NÃO", ROXO, 5)
     linha("Flip V:", "SIM" if nave.flip_v else "NÃO", ROXO, 6)
