@@ -204,11 +204,15 @@ def run():
                         if a.bonus_tiro:
                             nave.ativar_bonus_tiro()
 
+                        if a.bonus_vida:
+                            nave.ativar_bonus_vida()
+
                         if p in projeteis:
                             projeteis.remove(p)
                         if a in asteroides:
                             asteroides.remove(a)
                         break
+
                     if p in projeteis:
                         projeteis.remove(p)
 

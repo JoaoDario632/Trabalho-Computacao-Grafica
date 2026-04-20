@@ -81,7 +81,7 @@ def criar_projetil_surface(poder, ang):
 
     surf = pygame.Surface((l, h), pygame.SRCALPHA)
     pygame.draw.ellipse(surf, AMARELO, (0, 0, l, h))
-    pygame.draw.ellipse(surf, BRANCO, (l//4, h//10, l//2, h//1.25))
+    pygame.draw.ellipse(surf, BRANCO, (l // 4, h // 10, l // 2, h // 1.25))
     surf = pygame.transform.rotate(surf, ang)
     return surf
 
@@ -102,8 +102,8 @@ class Nave:
     ESCALA_MIN = 0.5
     ESCALA_MAX = 2.0
     VEL_BASE = 5
-    DURACAO_BONUS_TIRO = 60 * 60  # 1 minuto a 60 FPS
-    DURACAO_BONUS_VIDA = 60 * 60  # 1 minuto a 60 FPS
+    DURACAO_BONUS_TIRO = 60 * 60
+    DURACAO_BONUS_VIDA = 60 * 60
 
     def __init__(self):
         self.x = LARGURA // 2
@@ -178,7 +178,7 @@ class Nave:
 
         if self.bonus_tiro_timer > 0:
             self.bonus_tiro_timer -= 1
-            
+
         if self.bonus_vida_timer > 0:
             self.bonus_vida_timer -= 1
 
@@ -190,7 +190,7 @@ class Nave:
 
     def escalar(self, alvo):
         escala_alvo = self.escala_key + alvo
-        if escala_alvo >= 0 and escala_alvo <= 2:
+        if 0 <= escala_alvo <= 2:
             self.escala_key = escala_alvo
 
     def escala_atual(self):
@@ -206,10 +206,9 @@ class Nave:
         self.bonus_tiro_timer = self.DURACAO_BONUS_TIRO
 
     def ativar_bonus_vida(self):
-        """Adiciona +1 vida só se tiver menos de 3 vidas"""
         if self.vidas < 3:
-            self.vidas = min(5, self.vidas + 1)  # Máximo 5 vidas
-        self.bonus_vida_timer = self.DURACAO_BONUS_VIDA  # Sempre ativa timer visual
+            self.vidas += 1
+            self.bonus_vida_timer = self.DURACAO_BONUS_VIDA
 
     def atirar(self):
         ang = self.angulo_visual
@@ -315,7 +314,7 @@ class Asteroide:
 
         if self.bonus_tiro:
             pygame.draw.circle(surface, AMARELO, self.rect.center, max(8, self.raio // 2), 2)
-        
+
         if self.bonus_vida:
             pygame.draw.circle(surface, VERDE, self.rect.center, max(10, self.raio // 2 + 4), 3)
 
