@@ -139,15 +139,11 @@ def run():
                     pygame.quit()
                     sys.exit()
 
-                if evento.key == pygame.K_q:
-                    nave.rotacionar(+10)
-                if evento.key == pygame.K_e:
-                    nave.rotacionar(-10)
-
-                if evento.key in (pygame.K_PLUS, pygame.K_EQUALS, pygame.K_KP_PLUS):
-                    nave.escalar(+0.1)
-                if evento.key in (pygame.K_MINUS, pygame.K_KP_MINUS):
-                    nave.escalar(-0.1)
+                if nave.escala == nave.escala_alvo:
+                    if evento.key in (pygame.K_PLUS, pygame.K_EQUALS, pygame.K_KP_PLUS):
+                        nave.escalar(2)
+                    if evento.key in (pygame.K_MINUS, pygame.K_KP_MINUS):
+                        nave.escalar(0.5)
 
                 if evento.key == pygame.K_f:
                     nave.alternar_flip_h()
@@ -170,6 +166,12 @@ def run():
             nave.rotacionar(+1.5)
         if teclas[pygame.K_e]:
             nave.rotacionar(-1.5)
+
+        if nave.escala != nave.escala_alvo:
+            if nave.escala_alvo > nave.escala:
+                nave.escala = min(nave.escala + 0.1, nave.escala_alvo)
+            else:
+                nave.escala = max(nave.escala - 0.1, nave.escala_alvo)
 
         estado["spawn_timer"] += 1
         intervalo_spawn = max(30, 90 - nivel * 6)

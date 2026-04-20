@@ -96,7 +96,7 @@ def criar_estrelas(n=120):
 
 class Nave:
     ESCALA_MIN = 0.5
-    ESCALA_MAX = 2.2
+    ESCALA_MAX = 2.0
     VEL_BASE = 5
     DURACAO_BONUS_TIRO = 60 * 60  # 1 minuto a 60 FPS
 
@@ -105,6 +105,7 @@ class Nave:
         self.y = ALTURA // 2
         self.angulo = 0
         self.escala = 1.0
+        self.escala_alvo = 1.0
         self.flip_h = False
         self.flip_v = False
         self.tamanho_base = 40
@@ -163,7 +164,7 @@ class Nave:
         self.angulo = (self.angulo + delta) % 360
 
     def escalar(self, delta):
-        self.escala = max(self.ESCALA_MIN, min(self.ESCALA_MAX, self.escala + delta))
+        self.escala_alvo = max(self.ESCALA_MIN, min(self.ESCALA_MAX, self.escala * delta))
 
     def alternar_flip_h(self):
         self.flip_h = not self.flip_h
