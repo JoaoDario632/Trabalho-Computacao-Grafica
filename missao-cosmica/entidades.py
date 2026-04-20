@@ -105,7 +105,12 @@ class Nave:
         self.y = ALTURA // 2
         self.angulo = 0
         self.escala = 1.0
-        self.escala_alvo = 1.0
+        self.escala_key = 1
+        self.escala_dict = {
+            0: 0.5,
+            1: 1.0,
+            2: 2.0
+        }
         self.flip_h = False
         self.flip_v = False
         self.tamanho_base = 40
@@ -174,8 +179,13 @@ class Nave:
     def rotacionar(self, delta):
         self.angulo = (self.angulo + delta) % 360
 
-    def escalar(self, delta):
-        self.escala_alvo = max(self.ESCALA_MIN, min(self.ESCALA_MAX, self.escala * delta))
+    def escalar(self, alvo):
+        escala_alvo = self.escala_key + alvo
+        if escala_alvo >= 0 and escala_alvo <= 2:
+            self.escala_key = escala_alvo
+
+    def escala_atual(self):
+        return self.escala_dict[self.escala_key]
 
     def alternar_flip_h(self):
         self.flip_h = not self.flip_h
