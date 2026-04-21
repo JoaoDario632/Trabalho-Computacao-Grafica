@@ -15,7 +15,7 @@ LARANJA      = (255, 150,  30)
 ROXO         = (180,  60, 255)
 CINZA        = (120, 120, 120)
 CINZA_CLARO  = (200, 200, 210)
-AZUL_INFO    = ( 80, 150, 255)
+AZUL_INFO    = (80, 150, 255)
 
 
 def criar_nave_surface(tamanho=40):
