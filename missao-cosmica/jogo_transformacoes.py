@@ -204,8 +204,8 @@ def run():
                         if a.bonus_tiro:
                             nave.ativar_bonus_tiro()
 
-                        if a.bonus_vida:
-                            nave.ativar_bonus_vida()
+                        if a.bonus_escudo:
+                            nave.ativar_bonus_escudo()
 
                         if p in projeteis:
                             projeteis.remove(p)

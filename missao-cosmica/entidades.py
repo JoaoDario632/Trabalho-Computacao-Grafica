@@ -103,7 +103,7 @@ class Nave:
     ESCALA_MAX = 2.0
     VEL_BASE = 5
     DURACAO_BONUS_TIRO = 10 * 60
-    DURACAO_BONUS_VIDA = 60 * 60
+    DURACAO_BONUS_ESCUDO = 60 * 60
 
     def __init__(self):
         self.x = LARGURA // 2
@@ -123,11 +123,12 @@ class Nave:
         self.surf_atual = self.surf_original
         self.rect = self.surf_atual.get_rect(center=(self.x, self.y))
         self.vidas = 3
+        self.escudo = False
         self.pontos = 0
         self.invencivel = 0
         self.efeito_motor = 0
         self.bonus_tiro_timer = 0
-        self.bonus_vida_timer = 0
+        self.bonus_escudo_timer = 0
 
     @property
     def tamanho_atual(self):
@@ -179,8 +180,8 @@ class Nave:
         if self.bonus_tiro_timer > 0:
             self.bonus_tiro_timer -= 1
 
-        if self.bonus_vida_timer > 0:
-            self.bonus_vida_timer -= 1
+        if self.bonus_escudo_timer > 0:
+            self.bonus_escudo_timer -= 1
 
         self.efeito_motor = (self.efeito_motor + 1) % 10
         self._recalcular_surface()
@@ -207,10 +208,9 @@ class Nave:
     def ativar_bonus_tiro(self):
         self.bonus_tiro_timer = self.DURACAO_BONUS_TIRO
 
-    def ativar_bonus_vida(self):
-        if self.vidas < 3:
-            self.vidas += 1
-            self.bonus_vida_timer = self.DURACAO_BONUS_VIDA
+    def ativar_bonus_escudo(self):
+        self.escudo = True
+        self.bonus_escudo_timer = self.DURACAO_BONUS_ESCUDO
 
     def atirar(self):
         ang = self.angulo_visual
@@ -219,11 +219,16 @@ class Nave:
         return Projetil(self.x, self.y, vx, vy, self.escala_key, ang)
 
     def receber_dano(self):
-        if self.invencivel == 0:
+        if self.invencivel > 0:
+            return False
+
+        if self.bonus_escudo_timer > 0:
+            self.escudo = False
+            self.bonus_escudo_timer = 0
+        else:
             self.vidas -= 1
-            self.invencivel = 90
-            return True
-        return False
+        self.invencivel = 90
+        return True
 
     def draw(self, surface):
         if self.invencivel > 0 and (self.invencivel // 6) % 2 == 0:
@@ -239,6 +244,22 @@ class Nave:
                 pygame.draw.circle(surface, cor, (ox, oy), r)
 
         surface.blit(self.surf_atual, self.rect.topleft)
+
+        if self.escudo:
+            c = self.rect.center
+            r = int(self.tamanho_base * self.escala) + 14
+
+            surf_escudo = pygame.Surface((r*2, r*2), pygame.SRCALPHA)
+
+            c_loc = (r, r)
+
+            cores = [(255, 220, 50, 128), (255, 255, 255, 128)]
+
+            pygame.draw.circle(surf_escudo, cores[0], c_loc, r, 3)
+            pygame.draw.circle(surf_escudo, cores[1], c_loc, r-4, 1)
+            pygame.draw.circle(surf_escudo, cores[1], c_loc, r+2, 1)
+
+            surface.blit(surf_escudo, (c[0] - r, c[1] - r))
 
     def get_mask(self):
         return pygame.mask.from_surface(self.surf_atual)
@@ -279,7 +300,7 @@ class Asteroide:
             self.vida = 8
 
         self.bonus_tiro = random.random() < 0.2
-        self.bonus_vida = random.random() < 0.05
+        self.bonus_escudo = random.random() < 0.05
 
         ang = math.atan2(ALTURA // 2 - self.y, LARGURA // 2 - self.x)
         vel = random.uniform(1.5, 2.5 + nivel * 0.3)
@@ -317,7 +338,7 @@ class Asteroide:
         if self.bonus_tiro:
             pygame.draw.circle(surface, AMARELO, self.rect.center, max(8, self.raio // 2), 2)
 
-        if self.bonus_vida:
+        if self.bonus_escudo:
             pygame.draw.circle(surface, VERDE, self.rect.center, max(10, self.raio // 2 + 4), 3)
 
 
