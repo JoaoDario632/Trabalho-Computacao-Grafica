@@ -163,9 +163,9 @@ def run():
             estado["cooldown_tiro"] -= 1
 
         if teclas[pygame.K_q]:
-            nave.rotacionar(+1.5)
+            nave.rotacionar(+3)
         if teclas[pygame.K_e]:
-            nave.rotacionar(-1.5)
+            nave.rotacionar(-3)
 
         if nave.escala != nave.escala_atual():
             if nave.escala_atual() > nave.escala:

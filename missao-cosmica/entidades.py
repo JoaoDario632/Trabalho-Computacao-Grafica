@@ -102,7 +102,7 @@ class Nave:
     ESCALA_MIN = 0.5
     ESCALA_MAX = 2.0
     VEL_BASE = 5
-    DURACAO_BONUS_TIRO = 60 * 60
+    DURACAO_BONUS_TIRO = 10 * 60
     DURACAO_BONUS_VIDA = 60 * 60
 
     def __init__(self):
@@ -186,6 +186,8 @@ class Nave:
         self._recalcular_surface()
 
     def rotacionar(self, delta):
+        if self.flip_h and not self.flip_v or self.flip_v and not self.flip_h:
+            delta *= -1
         self.angulo = (self.angulo + delta) % 360
 
     def escalar(self, alvo):
@@ -277,7 +279,7 @@ class Asteroide:
             self.vida = 8
 
         self.bonus_tiro = random.random() < 0.2
-        self.bonus_vida = random.random() < 0.15
+        self.bonus_vida = random.random() < 0.05
 
         ang = math.atan2(ALTURA // 2 - self.y, LARGURA // 2 - self.x)
         vel = random.uniform(1.5, 2.5 + nivel * 0.3)
