@@ -149,7 +149,8 @@ class Nave:
     def _recalcular_surface(self):
         s = max(10, self.tamanho_atual)
         surf = pygame.transform.scale(self.surf_original, (s * 2, s * 2))
-        surf = pygame.transform.rotate(surf, self.angulo_visual)
+        surf = pygame.transform.rotate(surf, self.angulo)
+        surf = pygame.transform.flip(surf, self.flip_h, self.flip_v)
 
         self.surf_atual = surf
         self.rect = surf.get_rect(center=(self.x, self.y))
