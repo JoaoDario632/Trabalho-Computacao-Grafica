@@ -103,7 +103,6 @@ class Nave:
     ESCALA_MAX = 2.0
     VEL_BASE = 5
     DURACAO_BONUS_TIRO = 10 * 60
-    DURACAO_BONUS_VIDA = 60 * 60
 
     def __init__(self):
         self.x = LARGURA // 2
@@ -127,7 +126,6 @@ class Nave:
         self.invencivel = 0
         self.efeito_motor = 0
         self.bonus_tiro_timer = 0
-        self.bonus_vida_timer = 0
 
     @property
     def tamanho_atual(self):
@@ -180,9 +178,6 @@ class Nave:
         if self.bonus_tiro_timer > 0:
             self.bonus_tiro_timer -= 1
 
-        if self.bonus_vida_timer > 0:
-            self.bonus_vida_timer -= 1
-
         self.efeito_motor = (self.efeito_motor + 1) % 10
         self._recalcular_surface()
 
@@ -211,7 +206,6 @@ class Nave:
     def ativar_bonus_vida(self):
         if self.vidas < 3:
             self.vidas += 1
-            self.bonus_vida_timer = self.DURACAO_BONUS_VIDA
 
     def atirar(self):
         ang = self.angulo_visual
@@ -279,7 +273,7 @@ class Asteroide:
         else:
             self.vida = 8
 
-        self.bonus_tiro = random.random() < 0.2
+        self.bonus_tiro = random.random() < 0.05
         self.bonus_vida = random.random() < 0.05
 
         ang = math.atan2(ALTURA // 2 - self.y, LARGURA // 2 - self.x)

@@ -74,9 +74,6 @@ def desenhar_painel_transformacoes(surface, nave):
     tempo_bonus_tiro = nave.bonus_tiro_timer // 60
     linha("Boost Tiro:", f"{tempo_bonus_tiro:02d}s", AMARELO, 7)
 
-    tempo_bonus_vida = nave.bonus_vida_timer // 60
-    linha("Boost Vida:", f"{tempo_bonus_vida:02d}s", VERDE, 8)
-
     hints = [
         "Setas/WASD → mover",
         "Q/E → rotacionar",
