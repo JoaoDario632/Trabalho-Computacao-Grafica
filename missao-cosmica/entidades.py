@@ -226,12 +226,24 @@ class Nave:
 
         if self.efeito_motor < 5:
             t = self.tamanho_atual
+
+            ang = math.radians(-self.angulo_visual)
+
+            offset_x = 0
+            offset_y = t * 7/8
+
+            rot_x = offset_x * math.cos(ang) - offset_y * math.sin(ang)
+            rot_y = offset_x * math.sin(ang) + offset_y * math.cos(ang)
+
+            base_x = self.x + rot_x
+            base_y = self.y + rot_y
+
             for i in range(3):
-                r = random.randint(3, 8 + i * 3)
-                ox = self.x + random.randint(-4, 4)
-                oy = self.y + random.randint(t // 2 - 2, t // 2 + 6)
+                r = int(random.randint(3, 8 + i * 3) * self.escala)
+                ox = base_x + int(random.randint(-4, 4) * self.escala)
+                oy = base_y + int(random.randint(-2, 6) * self.escala)
                 cor = [LARANJA, AMARELO, VERMELHO][i]
-                pygame.draw.circle(surface, cor, (ox, oy), r)
+                pygame.draw.circle(surface, cor, (int(ox), int(oy)), r)
 
         surface.blit(self.surf_atual, self.rect.topleft)
 
